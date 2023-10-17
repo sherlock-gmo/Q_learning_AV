@@ -1,2 +1,2 @@
 # Q_learning_AV
-Q-learning method for autonomous vehicles
+Q-learning method for autonomous vehicles' navigation
