@@ -27,7 +27,6 @@ def Q_graph(Q):
 	Z = np.array(Z)
 	return X, Y, Z
 		
-		
 #************************************************************************************
 #************************************************************************************
 #************************************************************************************
@@ -72,7 +71,12 @@ while (i<=It):
 	delta = Autominy.optimal_control(e_y,e_th)	
 	action = [Vmax, delta, side]
 	pose = [x_0,y_0,theta_0,h]
-	states_disc, reward, done, pose_k1 = Autominy.step(action,pose,R,st_car1,Nrho,Ngamma) 
+	# Detecta que obstaculo esta mas cerca
+	rho_c1, _ = Autominy.v_lidar(st_car1,x_0,y_0,theta_0)
+	rho_c2, _ = Autominy.v_lidar(st_car2,x_0,y_0,theta_0)
+	if (rho_c1<=rho_c2): Obj = st_car1
+	else: Obj = st_car2
+	states_disc, reward, done, pose_k1 = Autominy.step(action,pose,R,Obj,Nrho,Ngamma) 
 	# Actualiza la pose del coche
 	x_0 = pose_k1[0] 
 	y_0 = pose_k1[1] 
@@ -116,8 +120,6 @@ Xq, Yq, Zq = Q_graph(q_table)
 fig = plt.figure(4)
 ax = fig.add_subplot(projection='3d')
 ax.scatter(Xq, Yq, Zq, marker='o')
-#ax.set_xlabel('rho [m]')
-#ax.set_ylabel('gamma [rad]')
 ax.set_xlabel('[m]')
 ax.set_ylabel('[m]')
 ax.set_zlabel('side')

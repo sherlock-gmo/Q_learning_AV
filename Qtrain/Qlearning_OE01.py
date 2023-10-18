@@ -42,6 +42,7 @@ def Q_game(q_table, render, update):
 		delta = Autominy.optimal_control(e_y,e_th)	
 		action = [Vmax, delta, side]
 		pose = [x_0,y_0,theta_0,h]
+		# Lleva a cabo la accion
 		states_disc, reward, done, pose_k1 = Autominy.step(action,pose,R,st_car1,Nrho,Ngamma) 
 		# Actualiza la pose del coche
 		x_0 = pose_k1[0] 
@@ -60,7 +61,7 @@ def Q_game(q_table, render, update):
 		i = i+1
 		if (done==False): break
 	if (i==It+1): success = True
-	if (render==True): Autominy.render(X,Y,Xr,Yr,Xl,Yl,Xc,Yc, st_car1)		# Muestra la animacion?
+	if (render==True): Autominy.render(X,Y,Xr,Yr,Xl,Yl,Xc,Yc,st_car1)		# Muestra la animacion?
 	return success, explore, exploit, q_table
 
 #************************************************************************************
@@ -146,4 +147,4 @@ plt.show()
 
 # Muestra la animacion final
 Q_game(q_table, True, False)
-np.save('Qlearning_DM01_02.npy', q_table)
+np.save('Qlearning_OE01_02.npy', q_table)
